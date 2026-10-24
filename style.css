@@ -321,51 +321,90 @@ body[data-mobile-view="catalog"] .creation-workspace,body[data-mobile-view="cata
   .battle-squads { grid-template-columns: minmax(0,1fr); }
 }
 @media (max-width:760px) {
-  main { padding: 0 12px 24px; }
-  .topbar { height: 58px; }
-  .brand { font-size: 23px; }
-  .mobile-navigation { position: sticky; top: 0; z-index: 20; display: flex; gap: 6px; padding: 8px 12px; background: #eaf3f8; border-bottom: 1px solid #afc1cf; }
-  .mobile-navigation button { flex: 1; min-height: 48px; color: #243d53; background: #fff; border: 1px solid #7894ab; font-size: 16px; font-weight: 800; }
-  .mobile-navigation button { padding:8px 4px; font-size:14px; }
+  body { font-size: 14px; }
+  main { padding: 0 8px 18px; }
+  .topbar { height: 48px; }
+  .brand { font-size: 20px; }
+  .brand small { margin-top: -4px; font-size: 7px; letter-spacing: 3px; }
+  .mobile-navigation { position: sticky; top: 0; z-index: 20; display: flex; gap: 4px; padding: 6px 8px; background: #eaf3f8; border-bottom: 1px solid #afc1cf; }
+  .mobile-navigation button { flex: 1; min-height: 40px; padding: 6px 3px; color: #243d53; background: #fff; border: 1px solid #7894ab; font-size: 13px; font-weight: 800; }
   .mobile-navigation button[aria-pressed="true"] { color: #fff; background: #14668b; }
-  .creation-workspace { display: flex; flex-direction: column; gap: 16px; padding: 16px 0; }
+  .creation-workspace { display: flex; flex-direction: column; gap: 10px; padding: 10px 0; }
   .creation-workspace > * { width: 100%; }
   body[data-mobile-view="create"] .roster-panel, body[data-mobile-view="create"] #arena,
   body[data-mobile-view="bag"] .hero, body[data-mobile-view="bag"] .result, body[data-mobile-view="bag"] #arena,
   body[data-mobile-view="battle"] .creation-workspace { display: none; }
-  .generator-panel { padding: 18px; }
-  .input-row input { font-size: 18px; }
-  .character-card { grid-template-columns: 140px minmax(0,1fr); }
+  .summon-guide { margin-bottom: 10px; padding: 12px 14px; }
+  .summon-guide b { font-size: 16px; }
+  .summon-guide p { margin-top: 4px; font-size: 13px; line-height: 1.5; }
+  .generator-panel { padding: 14px; }
+  .generator-panel h1 { margin-bottom: 14px; padding-bottom: 12px; font-size: 22px; }
+  #heroForm label { margin-bottom: 6px; font-size: 13px; }
+  .input-row { gap: 6px; }
+  .input-row input { padding: 11px; border-width: 2px; font-size: 16px; }
+  .input-row button { min-height: 42px; padding: 7px; }
+  .section-label { font-size: 10px; letter-spacing: 2px; }
+  .character-card { grid-template-columns: 112px minmax(0,1fr); margin-top: 7px; border-width: 2px; }
+  .character-sprite { width: 112px; height: 112px; min-width: 112px; min-height: 112px; max-width: 112px; max-height: 112px; flex-basis: 112px; }
+  .rarity { top: 7px; left: 6px; padding: 3px 6px; font-size: 9px; }
   .identity { grid-column: 2; grid-row: 1; }
-  .identity h2 { font-size: 28px; }
-  .power { grid-column: 2; grid-row: 2; text-align: left; border-left: 0; }
-  .stats { grid-column: 1 / -1; grid-row: 3; grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .skill-box { grid-column: 1 / -1; grid-row: 4; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; padding: 12px; }
-  .arena-skill { padding: 10px; }
-  .arena-skill b { font-size: 16px; }
-  .next-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
-  #saveHeroButton { grid-column: 1 / -1; min-height: 52px; font-size: 18px; }
-  .roster-panel { padding: 12px; }
-  .roster-grid { grid-template-columns: repeat(2,minmax(0,1fr)); grid-auto-rows: minmax(215px,auto); gap: 8px; }
-  .roster-grid .roster-card { display: flex; flex-direction: column; min-height: 215px; padding: 4px; }
-  .roster-info b { font-size: 17px; }
-  .roster-info span { font-size: 15px; }
-  .roster-info small { font-size: 13px; }
-  .delete-hero { width: 36px; height: 36px; }
-  .roster-preview { padding: 12px; }
+  .identity { gap: 5px; padding: 9px; }
+  .identity h2 { font-size: 23px; }
+  .class-name { font-size: 14px; }
+  .weapon-name { font-size: 12px; }
+  .copy-btn { padding: 5px 7px; font-size: 12px; }
+  .power { grid-column: 2; grid-row: 2; padding: 8px 9px; text-align: left; border-left: 0; }
+  .power small, .power-rank { font-size: 12px; }
+  .power strong { font-size: 22px; }
+  .stats { grid-column: 1 / -1; grid-row: 3; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px 10px; padding: 9px; }
+  .stat-icon { width: 20px; height: 20px; flex-basis: 20px; font-size: 10px; }
+  .stat-top { font-size: 12px; }
+  .stat-top b { font-size: 14px; }
+  .bar { height: 5px; margin-top: 2px; }
+  .skill-box { grid-column: 1 / -1; grid-row: 4; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; padding: 8px; }
+  .arena-skill { min-height: 78px; padding: 8px; border-width: 1px; }
+  .arena-skill small, .arena-skill span { font-size: 11px; }
+  .arena-skill b { font-size: 14px; }
+  .next-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; margin-top: 9px; }
+  .next-actions button { min-height: 42px; padding: 8px; border-width: 1px; font-size: 13px; }
+  #saveHeroButton { grid-column: 1 / -1; min-height: 44px; font-size: 15px; }
+  .roster-panel { padding: 9px; }
+  .roster-title { margin-bottom: 9px; }
+  .roster-title b { font-size: 17px; }
+  .roster-title span { font-size: 12px; }
+  .roster-grid { grid-template-columns: repeat(2,minmax(0,1fr)); grid-auto-rows: minmax(180px,auto); gap: 6px; }
+  .roster-grid .roster-card { display: flex; flex-direction: column; min-height: 180px; padding: 3px; }
+  .roster-info { padding: 5px 6px; }
+  .roster-info b { font-size: 15px; }
+  .roster-info span { font-size: 13px; }
+  .roster-info small { font-size: 11px; }
+  .delete-hero { width: 32px; height: 32px; }
+  .roster-preview { min-height: 130px; margin-top: 9px; padding: 9px; }
   .touch-team-actions button { flex: 1; }
-  .arena { padding: 20px 0; }
+  .arena { padding: 14px 0; }
   .team-builder { display: flex; flex-direction: column; }
   .team-controls { order: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
   .team-vs { display: none; }
-  #teamBattleBtn { grid-column: 1 / -1; grid-row: 1; min-height: 52px; }
+  #teamBattleBtn { grid-column: 1 / -1; grid-row: 1; min-height: 44px; }
   .red-team, .blue-team { order: 1; }
-  .drop-hint { font-size: 14px; }
-  .team-list { grid-template-columns: repeat(auto-fill,minmax(min(100%,148px),1fr)); }
-  .team-battle-stage { padding: 10px; }
-  .save-slot-dialog { padding: 14px; }
+  .team-drop { min-height: 210px; padding: 10px; border-width: 2px; }
+  .team-label b { font-size: 20px; }
+  .drop-hint { margin: 18px 0; font-size: 12px; }
+  .team-list { grid-template-columns: repeat(auto-fill,minmax(min(100%,132px),1fr)); grid-auto-rows: minmax(180px,auto); gap: 7px; }
+  .team-list .roster-card { min-height: 180px; padding-top: 5px; }
+  .team-battle-stage { margin-top: 20px; padding: 7px; }
+  .battle-unit { grid-template-columns: 112px minmax(0,1fr); gap: 6px; padding: 5px; }
+  .battle-log { height: 120px; padding: 10px; font-size: 12px; }
+  .save-slot-dialog { padding: 11px; }
+  .catalog { padding: 18px 0 32px; }
+  .catalog-header h1 { font-size: 25px; }
+  .catalog-tabs { gap: 5px; margin: 12px 0; }
+  .catalog-tabs button, .catalog-job-link { min-height: 40px; padding: 7px 10px; font-size: 13px; }
+  .catalog-grid { gap: 8px; }
+  .catalog-card { padding: 12px; }
+  .catalog-card h2 { font-size: 18px; }
+  .catalog-card p { font-size: 14px; line-height: 1.55; }
 }
 @media (max-width:400px) {
   .roster-grid { grid-template-columns: minmax(0,1fr); }
-  .battle-unit { grid-template-columns: minmax(0,1fr); }
 }
