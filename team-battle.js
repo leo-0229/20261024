@@ -7,7 +7,15 @@
     <section class="roster-panel">
       <div class="roster-title"><b>내 캐릭터</b><span><strong id="rosterCount">0</strong> / 9</span></div>
       <div class="roster-grid" id="rosterGrid"></div>
+    </section>
+    <section class="comparison-panel">
+      <div class="roster-title"><b>능력치 비교</b><span>두 영웅을 차례로 선택</span></div>
+      <div class="comparison-picker" id="comparisonPicker"></div>
       <div class="roster-preview" id="rosterPreview" aria-live="polite"><span>캐릭터를 터치하면 능력치가 표시됩니다.</span></div>
+    </section>
+    <section class="battle-roster-panel">
+      <div class="roster-title"><b>가방에서 팀으로 가져오기</b><span>같은 영웅도 여러 번 배치 가능</span></div>
+      <div class="battle-roster-picker" id="battleRosterPicker"></div>
     </section>
     <section class="team-builder">
       <div class="team-drop red-team" id="redTeam" data-team="red"><div class="team-label"><b>RED TEAM</b><span id="redCount">0명</span></div><div class="team-list" id="redList"></div><div class="drop-hint">캐릭터를 여기에 드래그</div></div>
@@ -27,9 +35,20 @@
     const hero=heroFor(name);
     return `<article class="roster-card" draggable="true" data-name="${escapeHtml(name)}" data-location="${location}">${avatar(hero)}<div class="roster-info"><b>${escapeHtml(name)}</b><span>${hero.job.name}</span><small>전투력 ${fmt(hero.power)} · 상위 ${hero.rankPercent.toFixed(1)}%</small></div>${location==='roster'?`<button class="delete-hero" data-delete="${escapeHtml(name)}" aria-label="${escapeHtml(name)} 삭제">×</button>`:''}</article>`;
   }
+  function pickerCard(name,index){
+    const hero=heroFor(name);
+    return `<button type="button" class="comparison-pick" data-compare-pick="${escapeHtml(name)}"><span>${index+1}</span><b>${escapeHtml(name)}</b><small>${hero.job.name} · ${fmt(hero.power)}</small></button>`;
+  }
+  function battlePickerCard(name,index){
+    const hero=heroFor(name);
+    return `<article class="battle-pick"><div><span>${index+1}</span><b>${escapeHtml(name)}</b><small>${hero.job.name}</small></div><button type="button" class="red-assign" data-pick-team="red" data-pick-name="${escapeHtml(name)}">RED +</button><button type="button" class="blue-assign" data-pick-team="blue" data-pick-name="${escapeHtml(name)}">BLUE +</button></article>`;
+  }
   function render(){
+    const saved=state.roster.map((name,index)=>({name,index})).filter(item=>item.name);
     $('#rosterCount').textContent=state.roster.filter(Boolean).length;
     $('#rosterGrid').innerHTML=Array.from({length:9},(_,i)=>state.roster[i]?card(state.roster[i]):`<div class="empty-roster" data-slot="${i}"><span>${i+1}</span><small>여기에 저장</small></div>`).join('');
+    $('#comparisonPicker').innerHTML=saved.length?saved.map(item=>pickerCard(item.name,item.index)).join(''):'<p class="picker-empty">가방에 저장된 영웅이 없습니다.</p>';
+    $('#battleRosterPicker').innerHTML=saved.length?saved.map(item=>battlePickerCard(item.name,item.index)).join(''):'<p class="picker-empty">가방에 저장된 영웅이 없습니다.</p>';
     $('#redList').innerHTML=state.red.map(n=>card(n,'red')).join('');$('#blueList').innerHTML=state.blue.map(n=>card(n,'blue')).join('');
     $('#redCount').textContent=state.red.length+'명';$('#blueCount').textContent=state.blue.length+'명';
     $('#redTeam').classList.toggle('has-team',state.red.length>0);$('#blueTeam').classList.toggle('has-team',state.blue.length>0);
@@ -60,6 +79,8 @@
     const button=event.target.closest('[data-compare-team]');
     if(button)assign(button.dataset.compareName,button.dataset.compareTeam);
   });
+  $('#comparisonPicker').addEventListener('click',event=>{const button=event.target.closest('[data-compare-pick]');if(button)showComparison(button.dataset.comparePick)});
+  $('#battleRosterPicker').addEventListener('click',event=>{const button=event.target.closest('[data-pick-team]');if(button)assign(button.dataset.pickName,button.dataset.pickTeam)});
   document.querySelector('main').addEventListener('click',e=>{if(e.target.closest('button'))return;const el=e.target.closest('.roster-card');if(el)showComparison(el.dataset.name)});
   document.querySelector('main').addEventListener('keydown',e=>{if(e.target!==e.target.closest('.roster-card'))return;if(e.key==='Enter'||e.key===' '){e.preventDefault();showComparison(e.target.dataset.name)}});
   function assign(name,team){if(state.fighting||!state.roster.includes(name)||!['red','blue'].includes(team))return;state[team].push(name);render()}
@@ -105,7 +126,7 @@
   }
   // The bag sits directly below creation, with click/touch saving as well as drag.
   const workspace=document.querySelector('.creation-workspace');
-  workspace.append(document.querySelector('.roster-panel'));
+  workspace.append(document.querySelector('.roster-panel'),document.querySelector('.comparison-panel'));
   const saveButton=document.createElement('button');saveButton.type='button';saveButton.id='saveHeroButton';saveButton.textContent='가방에 저장';saveButton.className='primary';
   $('.next-actions').prepend(saveButton);
   const dialog=document.createElement('dialog');dialog.className='save-slot-dialog';
@@ -118,10 +139,10 @@
     dialog.showModal();
   };
   const mobileNav=document.createElement('nav');mobileNav.className='mobile-navigation';mobileNav.setAttribute('aria-label','게임 화면 선택');
-  mobileNav.innerHTML='<button data-view="create">영웅 소환</button><button data-view="bag">가방</button><button data-view="battle">팀 결투</button><button data-view="catalog">전체 도감</button>';
+  mobileNav.innerHTML='<button data-view="create">소환</button><button data-view="bag">가방</button><button data-view="compare">비교</button><button data-view="battle">결투</button><button data-view="catalog">도감</button>';
   document.querySelector('.topbar').after(mobileNav);
   function setMobileView(view){document.body.dataset.mobileView=view;$('#catalog').hidden=view!=='catalog';mobileNav.querySelectorAll('button').forEach(button=>{button.setAttribute('aria-pressed',String(button.dataset.view===view))});}
-  mobileNav.onclick=e=>{const button=e.target.closest('[data-view]');if(button){setMobileView(button.dataset.view);if(window.matchMedia('(min-width:761px)').matches&&button.dataset.view==='bag')$('.roster-panel').scrollIntoView({behavior:'smooth'});else if(window.matchMedia('(min-width:761px)').matches&&button.dataset.view==='battle')arena.scrollIntoView({behavior:'smooth'});else window.scrollTo({top:0,behavior:'smooth'})}};
+  mobileNav.onclick=e=>{const button=e.target.closest('[data-view]');if(button){setMobileView(button.dataset.view);if(window.matchMedia('(min-width:761px)').matches&&button.dataset.view==='bag')$('.roster-panel').scrollIntoView({behavior:'smooth'});else if(window.matchMedia('(min-width:761px)').matches&&button.dataset.view==='compare')$('.comparison-panel').scrollIntoView({behavior:'smooth'});else if(window.matchMedia('(min-width:761px)').matches&&button.dataset.view==='battle')arena.scrollIntoView({behavior:'smooth'});else window.scrollTo({top:0,behavior:'smooth'})}};
   $('#toBattle').onclick=()=>{setMobileView('battle');arena.scrollIntoView({behavior:'smooth'})};
   setMobileView('create');
   saveRoster();

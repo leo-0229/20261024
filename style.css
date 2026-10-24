@@ -68,8 +68,9 @@ main { width: 100%; max-width: 1640px; margin: auto; padding: 0 24px; }
 .character-sprite { position: relative; display: block; width: 140px; height: 140px; min-width: 140px; min-height: 140px; max-width: 140px; max-height: 140px; flex: 0 0 140px; overflow: hidden; margin: 0 auto; }
 .character-sprite > img { position: absolute; display: block; width: 500%; height: 400%; min-width: 500%; max-width: none; pointer-events: none; }
 .dragging { opacity: .35; }
-.creation-workspace > .roster-panel { grid-column: 1 / -1; width: 100%; }
+.creation-workspace > .roster-panel, .creation-workspace > .comparison-panel { grid-column: 1 / -1; width: 100%; }
 .roster-panel { padding: 20px; overflow: hidden; background: #182536; border: 2px solid #526d86; }
+.comparison-panel { padding:20px; overflow:hidden; background:#182536; border:2px solid #526d86; }
 .roster-title { display: flex; justify-content: space-between; margin-bottom: 14px; }
 .roster-title b { font-size: 20px; }
 .roster-title span { color: #b9c9d6; font-size: 14px; }
@@ -88,6 +89,13 @@ main { width: 100%; max-width: 1640px; margin: auto; padding: 0 24px; }
 .empty-roster.drag-over { color: #fff; background: #283542; border-color: #ffe05b; }
 .roster-preview { min-height: 154px; margin-top: 14px; padding: 14px 18px; color: #fff; background: #0c1724; border: 2px solid #536d84; }
 .roster-preview > span { display: block; padding-top: 48px; color: #b8c9d8; text-align: center; font-size: 15px; }
+.comparison-picker { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+.comparison-pick { display:grid; grid-template-columns:28px minmax(0,1fr); gap:0 8px; align-items:center; min-width:0; padding:9px; color:#fff; text-align:left; background:#223449; border:1px solid #617b94; }
+.comparison-pick > span { grid-row:1 / 3; color:#83ddff; font-weight:900; text-align:center; }
+.comparison-pick b,.comparison-pick small { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.comparison-pick b { font-size:15px; }
+.comparison-pick small { color:#c7d6e2; font-size:12px; }
+.picker-empty { grid-column:1 / -1; margin:0; padding:18px; color:#aec1d1; text-align:center; background:#101a27; }
 .roster-preview header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding-bottom: 9px; border-bottom: 1px solid #435a6e; }
 .roster-preview header b { min-width: 0; font-size: 21px; overflow-wrap: anywhere; }
 #resetComparison { padding: 8px 12px; color: #fff; background: #294159; border: 1px solid #9ab2c6; font-size: 14px; }
@@ -140,6 +148,14 @@ main { width: 100%; max-width: 1640px; margin: auto; padding: 0 24px; }
 }
 .touch-team-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
 .touch-team-actions button, .remove-team-member { min-height: 44px; padding: 10px 16px; color: #fff; border: 1px solid #9db4c8; font-size: 16px; }
+.battle-roster-panel { max-width:1100px; margin:0 auto 14px; padding:14px; background:#182536; border:2px solid #526d86; }
+.battle-roster-picker { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+.battle-pick { display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:6px; align-items:center; min-width:0; padding:7px; color:#fff; background:#223449; border:1px solid #617b94; }
+.battle-pick > div { display:grid; grid-template-columns:22px minmax(0,1fr); min-width:0; }
+.battle-pick > div span { grid-row:1 / 3; color:#83ddff; font-weight:900; }
+.battle-pick b,.battle-pick small { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.battle-pick small { color:#c7d6e2; font-size:12px; }
+.battle-pick button { min-height:38px; padding:5px 8px; color:#fff; border:1px solid #9db4c8; font-size:12px; font-weight:900; }
 .red-assign { background: #9a2938; }
 .blue-assign { background: #175c9d; }
 .remove-team-member { margin: 8px; background: #273b50; font-size: 14px; }
@@ -332,7 +348,9 @@ body[data-mobile-view="catalog"] .creation-workspace,body[data-mobile-view="cata
   .creation-workspace { display: flex; flex-direction: column; gap: 10px; padding: 10px 0; }
   .creation-workspace > * { width: 100%; }
   body[data-mobile-view="create"] .roster-panel, body[data-mobile-view="create"] #arena,
-  body[data-mobile-view="bag"] .hero, body[data-mobile-view="bag"] .result, body[data-mobile-view="bag"] #arena,
+  body[data-mobile-view="create"] .comparison-panel,
+  body[data-mobile-view="bag"] .hero, body[data-mobile-view="bag"] .result, body[data-mobile-view="bag"] .comparison-panel, body[data-mobile-view="bag"] #arena,
+  body[data-mobile-view="compare"] .hero, body[data-mobile-view="compare"] .result, body[data-mobile-view="compare"] .roster-panel, body[data-mobile-view="compare"] #arena,
   body[data-mobile-view="battle"] .creation-workspace { display: none; }
   .summon-guide { margin-bottom: 10px; padding: 12px 14px; }
   .summon-guide b { font-size: 16px; }
@@ -369,6 +387,9 @@ body[data-mobile-view="catalog"] .creation-workspace,body[data-mobile-view="cata
   .next-actions button { min-height: 42px; padding: 8px; border-width: 1px; font-size: 13px; }
   #saveHeroButton { grid-column: 1 / -1; min-height: 44px; font-size: 15px; }
   .roster-panel { padding: 9px; }
+  .comparison-panel { padding:9px; }
+  .comparison-picker { grid-template-columns:minmax(0,1fr); gap:5px; }
+  .comparison-pick { min-height:42px; padding:6px 8px; }
   .roster-title { margin-bottom: 9px; }
   .roster-title b { font-size: 17px; }
   .roster-title span { font-size: 12px; }
@@ -382,6 +403,10 @@ body[data-mobile-view="catalog"] .creation-workspace,body[data-mobile-view="cata
   .roster-preview { min-height: 130px; margin-top: 9px; padding: 9px; }
   .touch-team-actions button { flex: 1; }
   .arena { padding: 14px 0; }
+  .battle-roster-panel { margin-bottom:9px; padding:9px; }
+  .battle-roster-picker { grid-template-columns:minmax(0,1fr); gap:5px; }
+  .battle-pick { padding:5px; }
+  .battle-pick button { min-height:36px; padding:4px 7px; }
   .team-builder { display: flex; flex-direction: column; }
   .team-controls { order: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
   .team-vs { display: none; }
