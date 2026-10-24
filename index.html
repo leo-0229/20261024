@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101d2c">
+  <title>네임포지 아레나</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css?v=48">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#">NAME<span>FORGE</span><small>ARENA</small></a>
+  </header>
+  <main>
+    <div class="creation-workspace">
+      <section class="hero">
+        <div class="summon-guide">
+          <b>이름으로 영웅 만들기</b>
+          <p>이름을 입력하면 직업, 능력치, 스킬과 캐릭터가 결정됩니다. 생성된 영웅 카드를 원하는 로스터 칸으로 드래그해 저장하세요.</p>
+        </div>
+        <div class="generator-panel">
+          <h1>영웅 소환</h1>
+          <form id="heroForm">
+            <label for="heroName">도전자 이름</label>
+            <div class="input-row">
+              <input id="heroName" maxlength="30" placeholder="이름을 입력하세요 (최대 30자)" autocomplete="off">
+              <button type="submit">능력치 각성 →</button>
+            </div>
+          </form>
+        </div>
+      </section>
+      <section class="result" id="result">
+        <div class="section-label">CHARACTER FILE <span id="fileNo"></span></div>
+        <div class="character-card" id="characterCard">
+          <div class="portrait-wrap">
+            <div class="rarity" id="rarity"></div>
+            <div class="portrait" id="portrait"></div>
+          </div>
+          <div class="identity">
+            <div><h2 id="displayName"></h2><div class="class-name" id="className"></div><div class="weapon-name" id="weaponName"></div></div>
+            <button class="copy-btn" id="copyBtn">결과 복사</button>
+          </div>
+          <div class="power"><small>전투력</small><strong id="power"></strong><div class="power-rank">상위 <b id="percentile"></b></div></div>
+          <div class="stats" id="stats"></div>
+          <div class="skill-box"></div>
+        </div>
+        <div class="next-actions">
+          <button id="toBattle">이 영웅으로 전투 준비</button>
+          <button id="regenerate">다른 이름 소환</button>
+        </div>
+      </section>
+    </div>
+    <section class="arena" id="arena"></section>
+    <section class="catalog" id="catalog" hidden aria-label="전체 도감"></section>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="./game-data.js?v=45"></script>
+  <script src="./hero.js?v=49"></script>
+  <script src="./skills.js?v=34"></script>
+  <script src="./combat.js?v=46"></script>
+  <script src="./ui.js?v=49"></script>
+  <script src="./comparison.js?v=45"></script>
+  <script src="./team-battle.js?v=48"></script>
+  <script src="./catalog.js?v=45"></script>
+</body>
+</html>
